@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-
+using UnityEngine.Tilemaps;
 
 public class Prospector : MonoBehaviour {
 
@@ -16,6 +16,7 @@ public class Prospector : MonoBehaviour {
 	[Header("Set Dynamically")]
 	public Deck					deck;
 	public Layout layout;
+	public List<CardProspector> drawPile;
 
 	void Awake(){
 		S = this;
@@ -36,6 +37,17 @@ public class Prospector : MonoBehaviour {
 
 		layout = GetComponent<Layout> (); //get the layout component
 		layout.ReadLayout(layoutXML.text); //Pass LayoutXML to it
+		drawPile = ConvertListCardsToListCardProspectors(deck.cards);
 	}
-
+	List<CardProspector> ConvertListCardsToListCardProspectors(List<Card>1CD)
+	{
+		List<CardProspector> 1CP = new List<CardProspector> ();
+		CardProspector tCP;
+		foreach(Card tCD in 1CD)
+		{
+			tCP = tCD as CardProspector;
+			1CP.Add(tCP);
+		}
+		return(1CP);
+	}
 }
