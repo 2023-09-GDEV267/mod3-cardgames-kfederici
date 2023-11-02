@@ -20,6 +20,8 @@ public class Prospector : MonoBehaviour
 	public Vector2 fsPosRun = new Vector2(0.5f, 0.75f);
 	public Vector2 fsPosMid2 = new Vector2(0.4f, 1.0f);
 	public Vector2 fsPosEnd = new Vector2(0.5f, 0.95f);
+	public float reloadDelay = 2f;//2 second delay between rounds
+	public Text gameOverText, roundResultText, highScoreText;
 
 	[Header("Set Dynamically")]
 	public Deck	deck;
@@ -34,14 +36,48 @@ public class Prospector : MonoBehaviour
 	void Awake()
 	{
 		S = this;
+		SetUpUITexts();
+	}
+
+	void SetUpUITexts()
+	{
+		//set up the HighScore UI Text
+		GameObject go = GameObject.Find("HighScore");
+		if (go != null)
+		{
+			highScoreText = go.GetComponent<Text>();
+		}
+		int highScore = ScoreManager.HIGH_SCORE;
+		string hScore = "High Score: " + Utils.AddCommasToNumber(highScore);
+		go.GetComponent<Text>().text = hScore;
+
+		//set up the UI Texts that show at the end of the round
+		go = GameObject.Find("GameOver");
+		if (go != null)
+		{
+			gameOverText = go.GetComponent<Text>();
+		}
+		go = GameObject.Find("RoundResult");
+		if (go != null)
+		{
+			roundResultText = go.GetComponent<Text>();
+		}
+		//make the end of round texts invisible
+		ShowResultsUI(false);
+	}
+
+	void ShowResultsUI(bool show)
+	{
+		gameOverText.gameObject.SetActive(show);
+		roundResultText.gameObject.SetActive(show);
 	}
 
 	void Start() 
 	{
 		Scoreboard.S.score = ScoreManager.SCORE;
 		deck = GetComponent<Deck> ();//get the deck
-		deck.InitDeck (deckXML.text);
-		Deck.Shuffle(ref deck.cards);
+		deck.InitDeck (deckXML.text);//pass DeckXML to it
+		Deck.Shuffle(ref deck.cards);//this shuffles the deck by reference
 
 		//Card c;
 
@@ -96,14 +132,13 @@ public class Prospector : MonoBehaviour
 			cp = Draw();//pull a card from the top of the draw pile
 			cp.faceUp = tSD.faceUp;//set its faceUp to the value in SlotDef
 			cp.transform.parent = layoutAnchor;//make its parent layoutAnchor
-											   //this replaces the previous parent: deck.deckAnchor, which appears as _Deck in the Hierarchy when the scene is playing
+			//this replaces the previous parent: deck.deckAnchor, which appears as _Deck in the Hierarchy when the scene is playing
 			cp.transform.localPosition = new Vector3(layout.multiplier.x * tSD.x, layout.multiplier.y * tSD.y, -tSD.layerID);
 			//Set the localPosition of the card based on slotDef
 			cp.layoutID = tSD.id;
 			cp.slotDef = tSD;
 			//CardProspectors in the tableau have the state CardState.tableau
 			cp.state = eCardState.tableau;
-			//CardProspectors in the tableau have the state CardState.tableau
 			cp.SetSortingLayerName(tSD.layerName);//set the sorting layers
 			tableau.Add(cp); //Add this CardProspector to the List<> tableau
 		}
@@ -278,18 +313,43 @@ public class Prospector : MonoBehaviour
 	}
 	void GameOver(bool won)
 	{
+		int score = ScoreManager.SCORE;
+		if (fsRun != null) score += fsRun.score;
 		if (won)
 		{
+			gameOverText.text = "Round Over";
+			roundResultText.text = "You won this round!\nRound Score: " + score;
+			ShowResultsUI(true);
 			//print("Game Over.  You won! :)"); commented out
 			ScoreManager.EVENT(eScoreEvent.gameWin);
 			FloatingScoreHandler(eScoreEvent.gameWin);
 		}
 		else
 		{
+			gameOverText.text = "Game Over";
+			if (ScoreManager.HIGH_SCORE <= score)
+			{
+				string str = "You got the high score!\nHigh score: " + score;
+				roundResultText.text = str;
+			}
+			else
+			{
+				roundResultText.text = "Your final score was: " + score;
+			}
+			ShowResultsUI(true);
 			//print("Game Over.  You lost. :("); commented out
 			ScoreManager.EVENT(eScoreEvent.gameLoss);
 			FloatingScoreHandler(eScoreEvent.gameLoss);
 		}
+		//reload the scene, resetting the game
+		//SceneManager.LoadScene("__Prospector_Scene_0");//commented out
+
+		//reload the scene in reloadDelay seconds
+		//this will give thescore a moment to travel
+		Invoke("ReloadLevel", reloadDelay);
+	}
+	void ReloadLevel()
+	{
 		//reload the scene, resetting the game
 		SceneManager.LoadScene("__Prospector_Scene_0");
 	}
