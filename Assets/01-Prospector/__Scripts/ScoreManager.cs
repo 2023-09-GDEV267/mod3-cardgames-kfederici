@@ -7,7 +7,8 @@ public enum eScoreEvent
 {
     draw,
     mine,
-    mineGold,gameWin,
+    mineGold,
+    gameWin,
     gameLoss
 }
 //ScoreManager handles all of the scoring
