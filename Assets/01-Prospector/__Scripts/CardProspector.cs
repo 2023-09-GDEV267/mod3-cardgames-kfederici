@@ -10,7 +10,7 @@ public enum eCardState
     target,
     discard
 }
-public class CardProspector : MonoBehaviour
+public class CardProspector : Card
 {
     [Header("Set Dynamically: CardProspector")]
     //this is how you use the enum eCardState
