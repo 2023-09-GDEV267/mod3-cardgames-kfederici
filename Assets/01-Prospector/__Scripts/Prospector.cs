@@ -351,7 +351,7 @@ public class Prospector : MonoBehaviour
 	void ReloadLevel()
 	{
 		//reload the scene, resetting the game
-		SceneManager.LoadScene("__Prospector_Scene_0");
+		SceneManager.LoadScene("__Prospector");
 	}
 	//return true if the two cards are adjacent in rank (aces and kings wrap around)
 	public bool AdjacentRank(CardProspector c0, CardProspector c1)
