@@ -98,7 +98,7 @@ public class GolfCard : MonoBehaviour
 } // class Card
 
 [System.Serializable]
-public class Decorator
+public class GolfDecorator
 {
     public string type;         // For card pips, type = "pip"
     public Vector3 loc;         // location of sprite on the card
@@ -107,10 +107,10 @@ public class Decorator
 }
 
 [System.Serializable]
-public class CardDefinition
+public class GolfCardDefinition
 {
     public string face; //sprite to use for face cart
     public int rank;    // value from 1-13 (Ace-King)
-    public List<Decorator>
-                    pips = new List<Decorator>();  // Pips Used
+    public List<GolfDecorator>
+                    pips = new List<GolfDecorator>();  // Pips Used
 }
