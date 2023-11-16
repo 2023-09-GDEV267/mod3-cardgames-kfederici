@@ -12,7 +12,7 @@ public class Golf : MonoBehaviour
 
     [Header("Set in Inspector")]
     public TextAsset deckXML;
-    public TextAsset layoutXML;
+    public TextAsset GolfLayoutXML;
     public float xOffset = 3;
     public float yOffset = -2.5f;
     public Vector3 layoutCenter;
@@ -88,7 +88,7 @@ public class Golf : MonoBehaviour
         //}
 
         layout = GetComponent<Layout>(); //get the layout component
-        layout.ReadLayout(layoutXML.text); //Pass LayoutXML to it
+        layout.ReadLayout(GolfLayoutXML.text); //Pass LayoutXML to it
         drawPile = ConvertListCardsToListCardGolfSolitaire(deck.cards);
         LayoutGame();
     }
