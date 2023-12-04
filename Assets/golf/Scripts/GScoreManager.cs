@@ -23,7 +23,7 @@ public class GScoreManager : MonoBehaviour
     //public int chain = 0;
     //public int scoreRun = 0;
     public int score = 0;
-
+    public List<CardGolfSolitaire> tableau;
     void Awake()
     {
         if (S == null)
@@ -62,7 +62,8 @@ public class GScoreManager : MonoBehaviour
         {
             //same things need to happen whether it's a draw, a win, or a loss
             //case eGScoreEvent.draw://drwaing a card
-            case eGScoreEvent.gameWin://won the round
+            case eGScoreEvent.gameWin:
+                //won the round
             case eGScoreEvent.gameLoss://lost the round
                 //chain = 0;//resets the score chain
                 //score += scoreRun;//resets the score chain
