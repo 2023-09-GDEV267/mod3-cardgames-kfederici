@@ -644,18 +644,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53fd1ef1c33d7b143be3ad2709c060e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  suitClub: {fileID: 0}
-  suitDiamond: {fileID: 0}
-  suitHeart: {fileID: 0}
-  suitSpade: {fileID: 0}
-  faceSprites: []
-  rankSprites: []
-  cardBack: {fileID: 0}
-  cardBackGold: {fileID: 0}
-  cardFront: {fileID: 0}
-  cardFrontGold: {fileID: 0}
-  prefabSprite: {fileID: 0}
-  prefabCard: {fileID: 0}
+  suitClub: {fileID: 21300000, guid: f2e3abd22e9ae4d17ab5c0659ff3e024, type: 3}
+  suitDiamond: {fileID: 21300000, guid: f8c2745f3b53149c595d8fde43185468, type: 3}
+  suitHeart: {fileID: 21300000, guid: 3f3ffa8970b63467cad6ba98725b1c95, type: 3}
+  suitSpade: {fileID: 21300000, guid: a7994da692eef4500be008b80674eecb, type: 3}
+  faceSprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  rankSprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  cardBack: {fileID: 21300000, guid: a8185ed8d47594bb8a3b8e2d9233f769, type: 3}
+  cardBackGold: {fileID: 21300000, guid: 8ecf4828943064b3a96f6258b54c0f11, type: 3}
+  cardFront: {fileID: 21300000, guid: 873a7658b7ec742228520c7b15510f4d, type: 3}
+  cardFrontGold: {fileID: 21300000, guid: 944dc539459fe4109b973bd4c97f68ee, type: 3}
+  prefabSprite: {fileID: 100000, guid: f2d719933447a0f45b607a2b2a3b292c, type: 3}
+  prefabCard: {fileID: 100000, guid: b2a7ddf90e82986459408e05401bcbab, type: 3}
   xmlr:
     xmlText: 
   cardNames: []
@@ -675,8 +703,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6ed9356dc7e7d14b967ebca63feaae9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckXML: {fileID: 0}
-  layoutXML: {fileID: 0}
+  deckXML: {fileID: 4900000, guid: c76312a0fb08948699e1abf935e4a957, type: 3}
+  GolfLayoutXML: {fileID: 4900000, guid: de05c6e61cbbf0e49a3e73c286a6421f, type: 3}
   xOffset: 3
   yOffset: -2.5
   layoutCenter: {x: 0, y: 0, z: 0}
