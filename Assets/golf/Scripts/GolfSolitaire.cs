@@ -24,8 +24,8 @@ public class Golf : MonoBehaviour
     public Text gameOverText, roundResultText, highScoreText;
 
     [Header("Set Dynamically")]
-    public Deck deck;
-    public Layout layout;
+    public GolfDeck deck;
+    public LayoutGolf layout;
     public List<CardGolfSolitaire> drawPile;
     public Transform layoutAnchor;
     public CardGolfSolitaire target;
@@ -42,7 +42,7 @@ public class Golf : MonoBehaviour
     void SetUpUITexts()
     {
         //set up the HighScore UI Text
-        GameObject go = GameObject.Find("HighScore");
+        GameObject go = GameObject.Find("Highscore");
         if (go != null)
         {
             highScoreText = go.GetComponent<Text>();
@@ -74,10 +74,10 @@ public class Golf : MonoBehaviour
 
     void Start()
     {
-        Scoreboard.S.score = ScoreManager.SCORE;
-        deck = GetComponent<Deck>();//get the deck
+        GScoreboard.S.score = GScoreManager.SCORE;
+        deck = GetComponent<GolfDeck>();//get the deck
         deck.InitDeck(deckXML.text);//pass DeckXML to it
-        Deck.Shuffle(ref deck.cards);//this shuffles the deck by reference
+        GolfDeck.Shuffle(ref deck.cards);//this shuffles the deck by reference
 
         //Card c;
 
@@ -87,7 +87,7 @@ public class Golf : MonoBehaviour
         //	c.transform.localPosition = new Vector3((cNum % 13) * 3, cNum / 13 * 4, 0);
         //}
 
-        layout = GetComponent<Layout>(); //get the layout component
+        layout = GetComponent<LayoutGolf>(); //get the layout component
         layout.ReadLayout(GolfLayoutXML.text); //Pass LayoutXML to it
         drawPile = ConvertListCardsToListCardGolfSolitaire(deck.cards);
         LayoutGame();
@@ -126,7 +126,7 @@ public class Golf : MonoBehaviour
         }
         CardGolfSolitaire cp;
         //follow the layout
-        foreach (SlotDef tSD in layout.slotDefs)
+        foreach (SlotDefGolf tSD in layout.slotDefs)
         {
             //iterate through all the SlotDefs in the layout.slotDefs as tSD
             cp = Draw();//pull a card from the top of the draw pile
@@ -138,7 +138,7 @@ public class Golf : MonoBehaviour
             cp.layoutID = tSD.id;
             cp.slotDef = tSD;
             //CardProspectors in the tableau have the state CardState.tableau
-            cp.state = eCardState.tableau;
+            cp.state = eGolfCardState.tableau;
             cp.SetSortingLayerName(tSD.layerName);//set the sorting layers
             tableau.Add(cp); //Add this CardProspector to the List<> tableau
         }
@@ -185,7 +185,7 @@ public class Golf : MonoBehaviour
     void MoveToDiscard(CardGolfSolitaire cd)
     {
         //set the state of the card to discard
-        cd.state = eCardState.discard;
+        cd.state = eGolfCardState.discard;
         discardPile.Add(cd);//Add it to the discardPile List<>
         cd.transform.parent = layoutAnchor;//update its transform parent
                                            //position this card on the discardPile
@@ -204,7 +204,7 @@ public class Golf : MonoBehaviour
         //if there is currently a target card, move it to discardPile
         if (target != null) MoveToDiscard(target);
         target = cd;//cd is the new target
-        cd.state = eCardState.target;
+        cd.state = eGolfCardState.target;
         cd.transform.parent = layoutAnchor;
         //move to the target position
         cd.transform.localPosition = new Vector3(
@@ -240,11 +240,11 @@ public class Golf : MonoBehaviour
         //the reaction is determined by the state of the clicked card
         switch (cd.state)
         {
-            case eCardState.target:
+            case eGolfCardState.target:
                 //clicking the target card does nothing
                 break;
 
-            case eCardState.drawpile:
+            case eGolfCardState.drawpile:
                 //clicking any card in the drawPile will draw the next card
                 MoveToDiscard(target);//moves the target to the discardPile
                 MoveToTarget(Draw());//moves the next drawn card to the target
@@ -252,7 +252,7 @@ public class Golf : MonoBehaviour
                 ScoreManager.EVENT(eScoreEvent.draw);
                 FloatingScoreHandler(eScoreEvent.draw);
                 break;
-            case eCardState.tableau:
+            case eGolfCardState.tableau:
                 //clicking a card in the tableau will check if it's a valid play
                 bool validMatch = true;
                 if (!cd.faceUp)

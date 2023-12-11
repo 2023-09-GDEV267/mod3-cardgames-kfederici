@@ -14,13 +14,13 @@ public class CardGolfSolitaire : Card
 {
     [Header("Set Dynamically: CardGolfSolitaire")]
     //this is how you use the enum eCardState
-    public eCardState state = eCardState.drawpile;
+    public eGolfCardState state = eGolfCardState.drawpile;
     //the hiddenBy list stores which other cards will keep this one face down
     public List<CardGolfSolitaire> hiddenBy = new List<CardGolfSolitaire>();
     //the layoutID matches this card to the tableau XML if it's a tableau card
     public int layoutID;
     //the slotdef class stores information pulled in from the LayoutXML <slot>
-    public SlotDef slotDef;
+    public SlotDefGolf slotDef;
 
     //this allows the card to react to being clicked
     override public void OnMouseUpAsButton()
