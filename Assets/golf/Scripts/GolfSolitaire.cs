@@ -249,8 +249,8 @@ public class Golf : MonoBehaviour
                 MoveToDiscard(target);//moves the target to the discardPile
                 MoveToTarget(Draw());//moves the next drawn card to the target
                 UpdateDrawPile();//restacks the drawPile
-                ScoreManager.EVENT(eScoreEvent.draw);
-                FloatingScoreHandler(eScoreEvent.draw);
+                //GScoreManager.EVENT(eGScoreEvent.draw);
+                //FloatingScoreHandler(eGScoreEvent.draw);
                 break;
             case eGolfCardState.tableau:
                 //clicking a card in the tableau will check if it's a valid play
@@ -270,8 +270,8 @@ public class Golf : MonoBehaviour
                 tableau.Remove(cd);//remove it from the tableau list
                 MoveToTarget(cd);//make it the target card
                 SetTableauFaces();//update tableau card face ups
-                ScoreManager.EVENT(eScoreEvent.mine);
-                FloatingScoreHandler(eScoreEvent.mine);
+                //GScoreManager.EVENT(eGScoreEvent.mine);
+                //FloatingScoreHandler(eGScoreEvent.mine);
                 break;
         }
         CheckForGameOver();
@@ -306,7 +306,7 @@ public class Golf : MonoBehaviour
     }
     void GameOver(bool won)
     {
-        int score = ScoreManager.SCORE;
+        int score = GScoreManager.SCORE;
         if (fsRun != null) score += fsRun.score;
         if (won)
         {
@@ -314,13 +314,13 @@ public class Golf : MonoBehaviour
             roundResultText.text = "You won this round!\nRound Score: " + score;
             ShowResultsUI(true);
             //print("Game Over.  You won! :)"); commented out
-            ScoreManager.EVENT(eScoreEvent.gameWin);
-            FloatingScoreHandler(eScoreEvent.gameWin);
+            GScoreManager.EVENT(eGScoreEvent.gameWin);
+            FloatingScoreHandler(eGScoreEvent.gameWin);
         }
         else
         {
             gameOverText.text = "Game Over";
-            if (ScoreManager.HIGH_SCORE <= score)
+            if (GScoreManager.HIGH_SCORE <= score)
             {
                 string str = "You got the high score!\nHigh score: " + score;
                 roundResultText.text = str;
@@ -331,8 +331,8 @@ public class Golf : MonoBehaviour
             }
             ShowResultsUI(true);
             //print("Game Over.  You lost. :("); commented out
-            ScoreManager.EVENT(eScoreEvent.gameLoss);
-            FloatingScoreHandler(eScoreEvent.gameLoss);
+            GScoreManager.EVENT(eGScoreEvent.gameLoss);
+            FloatingScoreHandler(eGScoreEvent.gameLoss);
         }
         //reload the scene, resetting the game
         //SceneManager.LoadScene("__Prospector_Scene_0");//commented out
@@ -344,7 +344,7 @@ public class Golf : MonoBehaviour
     void ReloadLevel()
     {
         //reload the scene, resetting the game
-        SceneManager.LoadScene("__GolfSolitaire");
+        SceneManager.LoadScene("GolfSolitaire");
     }
     //return true if the two cards are adjacent in rank (aces and kings wrap around)
     public bool AdjacentRank(CardGolfSolitaire c0, CardGolfSolitaire c1)
@@ -360,15 +360,15 @@ public class Golf : MonoBehaviour
         return (false);
     }
     //handle FloatingScore movement
-    void FloatingScoreHandler(eScoreEvent evt)
+    void FloatingScoreHandler(eGScoreEvent evt)
     {
         List<Vector2> fsPts;
         switch (evt)
         {
             //same things need to happen whether it's a draw, a win, or a loss
-            case eScoreEvent.draw://drawing a card
-            case eScoreEvent.gameWin://won the round
-            case eScoreEvent.gameLoss://lost the round
+            //case eGScoreEvent.draw://drawing a card
+            case eGScoreEvent.gameWin://won the round
+            case eGScoreEvent.gameLoss://lost the round
                                       //add fsRun to the Scoreboard score
                 if (fsRun != null)
                 {
@@ -384,29 +384,29 @@ public class Golf : MonoBehaviour
                     fsRun = null;//clear fsRun so it's created again
                 }
                 break;
-            case eScoreEvent.mine://remove a mine card
+            //case eGScoreEvent.mine://remove a mine card
                                   //create a floatingScore for this score
-                FloatingScore fs;
+                //FloatingScore fs;
                 //move it from the mousePosition to fsPosRun
-                Vector2 p0 = Input.mousePosition;
-                p0.x /= Screen.width;
-                p0.y /= Screen.height;
-                fsPts = new List<Vector2>();
-                fsPts.Add(p0);
-                fsPts.Add(fsPosMid);
-                fsPts.Add(fsPosRun);
-                fs = Scoreboard.S.CreateFloatingScore(ScoreManager.CHAIN, fsPts);
-                fs.fontSizes = new List<float>(new float[] { 4, 50, 28 });
-                if (fsRun == null)
-                {
-                    fsRun = fs;
-                    fsRun.reportFinishTo = null;
-                }
-                else
-                {
-                    fs.reportFinishTo = fsRun.gameObject;
-                }
-                break;
+                //Vector2 p0 = Input.mousePosition;
+                //p0.x /= Screen.width;
+                //p0.y /= Screen.height;
+                //fsPts = new List<Vector2>();
+                //fsPts.Add(p0);
+                //fsPts.Add(fsPosMid);
+                //fsPts.Add(fsPosRun);
+                //fs = GScoreboard.S.CreateFloatingScore(GScoreManager.CHAIN, fsPts);
+                //fs.fontSizes = new List<float>(new float[] { 4, 50, 28 });
+                //if (fsRun == null)
+                //{
+                    //fsRun = fs;
+                    //fsRun.reportFinishTo = null;
+                //}
+                //else
+                //{
+                    //fs.reportFinishTo = fsRun.gameObject;
+                //}
+                //break;
         }
     }
 }
